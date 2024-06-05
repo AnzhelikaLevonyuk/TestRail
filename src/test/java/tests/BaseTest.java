@@ -15,7 +15,6 @@ public abstract class BaseTest {
     protected AddProjectPage addProjectPage;
     protected ProjectsPage projectsPage;
     protected MilestonesPage milestonesPage;
-    protected NavigationPage projectInfoPage;
     protected TestCasePage testCasePage;
 
     @BeforeMethod(alwaysRun = true)
@@ -29,7 +28,6 @@ public abstract class BaseTest {
         addProjectPage = new AddProjectPage(driver);
         projectsPage = new ProjectsPage(driver);
         milestonesPage = new MilestonesPage(driver);
-        projectInfoPage = new NavigationPage(driver);
         testCasePage = new TestCasePage(driver);
 
         loginPage.open();

@@ -4,11 +4,11 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class NavigationPage extends BasePage {
+public class BaseDashboardPage extends BasePage{
     private static final By MILESTONES_TAB = By.id("navigation-milestones");
     private static final By TEST_CASES_TAB = By.id("navigation-suites");
 
-    public NavigationPage(WebDriver driver) {
+    public BaseDashboardPage(WebDriver driver) {
         super(driver);
     }
 

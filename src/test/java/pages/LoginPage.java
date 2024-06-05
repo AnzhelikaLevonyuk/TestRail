@@ -29,8 +29,6 @@ public class LoginPage extends BasePage {
 
     @Step("Fill login form email: '{email}' and password: '{password}'")
     public void login(String email, String password) {
-        //ElementDecorator loginButton = new ElementDecorator(driver, driver.findElement(By.cssSelector("")));
-        // ElementDecorator loginButton = new ElementDecorator(driver, By.id(""));
         new Input(driver, EMAIL).setValue(email);
         new Input(driver, PASSWORD).setValue(password);
         new ElementDecorator(driver, LOGIN_BUTTON).click();

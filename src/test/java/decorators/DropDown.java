@@ -19,9 +19,9 @@ public class DropDown extends ElementDecorator {
         super(driver, dataTestId);
     }
 
-    public void selectOptionByText(String option, By optionslocator) {
+    public void selectOptionByText(String option) {
         element.click();
-        List<WebElement> options = element.findElements(optionslocator);
+        List<WebElement> options = element.findElements(By.cssSelector("select + div li"));
         for (WebElement element : options) {
             if (element.getText().equals(option)) {
                 element.click();

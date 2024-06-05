@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public class ProjectsPage extends BasePage {
+public class ProjectsPage extends BaseDashboardPage{
     private static final By PROJECTS_LIST = By.className("hoverSensitive");
 
     public ProjectsPage(WebDriver driver) {

@@ -7,8 +7,8 @@ public class MilestonesTest extends BaseTest {
 
     @Test(groups = {"regression", "userShouldBeLogin"}, description = "Creating new milestone")
     public void createMilestone() {
-        dashboardPage.openProject("Project_1");
-        projectInfoPage.clickMilestonesTab();
+        dashboardPage.openProject("Test_1");
+        projectsPage.clickMilestonesTab();
         milestonesPage.clickAddMilestoneButton();
         milestonesPage.createMilestone("Test_One", "Test_reference", "Test_description");
         milestonesPage.clickCreateMilestoneButton();
@@ -17,8 +17,8 @@ public class MilestonesTest extends BaseTest {
 
     @Test(groups = {"regression", "userShouldBeLogin"}, description = "Creating new milestone without name")
     public void createMilestoneWithoutName() {
-        dashboardPage.openProject("Project_1");
-        projectInfoPage.clickMilestonesTab();
+        dashboardPage.openProject("Test_1");
+        projectsPage.clickMilestonesTab();
         milestonesPage.clickAddMilestoneButton();
         milestonesPage.createMilestoneWithoutName("Test_reference");
         milestonesPage.clickCreateMilestoneButton();

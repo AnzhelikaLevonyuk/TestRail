@@ -9,7 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 
-public class MilestonesPage extends BasePage {
+public class MilestonesPage extends BaseDashboardPage {
 
     private static final String ADD_MILESTONE = "navigationMilestonesAdd";
     private static final String MILESTONE_NAME = "addEditMilestoneName";
