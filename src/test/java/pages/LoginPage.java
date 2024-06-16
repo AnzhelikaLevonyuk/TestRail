@@ -1,11 +1,13 @@
 package pages;
 
+import decorators.Button;
 import decorators.ElementDecorator;
 import decorators.Input;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -23,8 +25,13 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
+    @Override
+    public void isPageOpened() {
+        wait.until(ExpectedConditions.elementToBeClickable(new Button(driver, LOGIN_BUTTON)));
+    }
+
     public void open() {
-        driver.navigate().to("https://likalevonyuk.testrail.io/index.php?/auth/login/");
+        driver.navigate().to("https://anzhelikalevonyuk21.testrail.io/index.php?/auth/login/");
     }
 
     @Step("Fill login form email: '{email}' and password: '{password}'")

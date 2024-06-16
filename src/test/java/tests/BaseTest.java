@@ -1,5 +1,6 @@
 package tests;
 
+import modals.ConfirmationModal;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
@@ -15,7 +16,14 @@ public abstract class BaseTest {
     protected AddProjectPage addProjectPage;
     protected ProjectsPage projectsPage;
     protected MilestonesPage milestonesPage;
-    protected TestCasePage testCasePage;
+    protected AddMilestonePage addMilestonePage;
+    protected TestCasesPage testCasesPage;
+    protected AddTestCasePage addTestCasePage;
+    protected TestCaseInfoPage testCaseInfoPage;
+    protected ConfirmationModal confirmationModal;
+    protected OverviewProjectPage overviewProjectPage;
+    protected MilestoneInfoPage milestoneInfoPage;
+
 
     @BeforeMethod(alwaysRun = true)
     @Parameters("browserName")
@@ -28,14 +36,22 @@ public abstract class BaseTest {
         addProjectPage = new AddProjectPage(driver);
         projectsPage = new ProjectsPage(driver);
         milestonesPage = new MilestonesPage(driver);
-        testCasePage = new TestCasePage(driver);
+        addMilestonePage = new AddMilestonePage(driver);
+        testCasesPage = new TestCasesPage(driver);
+        addTestCasePage = new AddTestCasePage(driver);
+        testCaseInfoPage = new TestCaseInfoPage(driver);
+        confirmationModal = new ConfirmationModal(driver);
+        overviewProjectPage = new OverviewProjectPage(driver);
+        milestoneInfoPage = new MilestoneInfoPage(driver);
+
 
         loginPage.open();
     }
 
     @BeforeMethod(onlyForGroups = "userShouldBeLogin", alwaysRun = true)
     public void userShouldBeLogIn() {
-        loginPage.login("tmsqa26lika@mailinator.com", "As50555327!");
+        loginPage.isPageOpened();
+        loginPage.login("tmsqa26anzhelika@mailinator.com", "TestRail2024!");
     }
 
     @AfterMethod(alwaysRun = true)

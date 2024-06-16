@@ -4,7 +4,7 @@ import decorators.Button;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class DashboardPage extends BasePage {
 
@@ -13,9 +13,13 @@ public class DashboardPage extends BasePage {
     private static final String ADD_PROJECT_LINK = "sidebarProjectsAddButton";
     private static final By DASHBOARD_LINK = By.id("navigation-dashboard");
 
-
     public DashboardPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    public void isPageOpened() {
+        wait.until(ExpectedConditions.elementToBeClickable(new Button(driver, ADD_PROJECT_LINK)));
     }
 
     public boolean isUserNameDisplayed() {

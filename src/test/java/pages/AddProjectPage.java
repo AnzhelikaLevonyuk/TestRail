@@ -2,10 +2,13 @@ package pages;
 
 import decorators.*;
 import io.qameta.allure.Step;
+import models.Project;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class AddProjectPage extends BasePage {
+
 
     private static final String PROJECT_NAME = "addProjectNameInput";
     private static final String ANNOUNCEMENT = "addEditProjectAnnouncement";
@@ -23,20 +26,30 @@ public class AddProjectPage extends BasePage {
         super(driver);
     }
 
+    @Override
+    public void isPageOpened() {
+        wait.until(ExpectedConditions.elementToBeClickable(new Button(driver, ADD_PROJECT_BUTTON)));
+    }
+
     @Step("Creating new project")
-    public void createNewProject(String projectName, String announcement) {
-        new Input(driver, PROJECT_NAME).setValue(projectName);
-        new TextArea(driver, ANNOUNCEMENT).setValue(announcement);
-        new CheckBox(driver, CHECK_BOX_SHOW_THE_ANNOUNCEMENT).click();
-        new RadioButton(driver, RADIO_BUTTON_MULTIPLE_TEST).select();
-        new CheckBox(driver, CHECK_BOX_ENABLE_TEST_CASE_APPROVALS).click();
+    public void createNewProject(Project project) {
+        new Input(driver, PROJECT_NAME).setValue(project.getName());
+        new TextArea(driver, ANNOUNCEMENT).setValue(project.getAnnouncement());
+        if (project.isShowAnnouncement()) {
+            new CheckBox(driver, CHECK_BOX_SHOW_THE_ANNOUNCEMENT).click();
+        }
+        new RadioButton(driver, project.getProjectType().getId()).select();
+
+        if (project.isShowAnnouncement()) {
+            new CheckBox(driver, CHECK_BOX_ENABLE_TEST_CASE_APPROVALS).click();
+        }
         new Button(driver, ADD_PROJECT_BUTTON).click();
     }
 
     @Step("Creating new project without title")
-    public void createNewProjectWithoutTitle() {
-        new TextArea(driver, ANNOUNCEMENT).setValue("TEST_ANNOUNCEMENT");
-        new RadioButton(driver, RADIO_BUTTON_MULTIPLE_TEST).select();
+    public void createNewProjectWithoutTitle(Project project) {
+        new Input(driver, PROJECT_NAME).setValue(project.getName());
+        new TextArea(driver, ANNOUNCEMENT).setValue(project.getAnnouncement());
         new Button(driver, ADD_PROJECT_BUTTON).click();
     }
 

@@ -1,24 +1,19 @@
 package pages;
 
 import decorators.Button;
-import decorators.CheckBox;
-import decorators.Input;
-import decorators.TextArea;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 
 public class MilestonesPage extends BaseDashboardPage {
-
+    private static final By MILESTONE_LIST = By.cssSelector(".hoverSensitive");
     private static final String ADD_MILESTONE = "navigationMilestonesAdd";
-    private static final String MILESTONE_NAME = "addEditMilestoneName";
-    private static final String MILESTONE_REFERENCE = "addEditMilestoneReference";
-    private static final String MILESTONE_DESCRIPTION = "editSectionDescription";
-    private static final String MILESTONE_CHECK_BOX = "addEditMilestoneIsCompleted";
-    private static final String MILESTONE_CREATE_BUTTON = "milestoneButtonOk";
-    private static final By ERROR_MESSAGE = By.cssSelector("div + .message-error");
-
+    private static final String DELETE_MILESTONE_CONTAINER = "//td/a[text()='%s']//ancestor::div[@id=\"completed\"]//a[@class = \"deleteLink\"]";
+    private static final String MILESTONES_CONTAINER = "//td/a[text() = '%s']";
 
     public MilestonesPage(WebDriver driver) {
         super(driver);
@@ -29,25 +24,20 @@ public class MilestonesPage extends BaseDashboardPage {
         new Button(driver, ADD_MILESTONE).click();
     }
 
-    @Step("Create new milestone: Fill name:'{name}',reference:'{reference}',description:'{description}'")
-    public void createMilestone(String name, String reference, String description) {
-        new Input(driver, MILESTONE_NAME).setValue(name);
-        new Input(driver, MILESTONE_REFERENCE).setValue(reference);
-        new TextArea(driver, MILESTONE_DESCRIPTION).setValue(description);
-        new CheckBox(driver, MILESTONE_CHECK_BOX).check();
+    @Step("Click Delete button near {milestoneName}")
+    public void clickDeleteMilestone(String milestoneName) {
+        driver.findElement(By.xpath(String.format(DELETE_MILESTONE_CONTAINER, milestoneName))).click();
     }
 
-    @Step("Create new milestone without name: Fill reference:{reference}")
-    public void createMilestoneWithoutName(String reference) {
-        new Input(driver, MILESTONE_REFERENCE).setValue(reference);
+    @Step("Check {milestoneName} milestone in the list on Milestones page")
+    public boolean isMilestoneCreated(String milestoneName) {
+        List<WebElement> milestones = driver.findElements(MILESTONE_LIST);
+        return milestones.stream().anyMatch(project -> project.getText().equals(milestoneName));
     }
 
-    @Step("Click 'Create milestone' button")
-    public void clickCreateMilestoneButton() {
-        new Button(driver, MILESTONE_CREATE_BUTTON).click();
+    @Step("Open Milestone info page")
+    public void openInfoPage(String milestoneName) {
+        driver.findElement(By.xpath(String.format(MILESTONES_CONTAINER, milestoneName))).click();
     }
 
-    public String getErrorMessage() {
-        return driver.findElement(ERROR_MESSAGE).getText();
-    }
 }
