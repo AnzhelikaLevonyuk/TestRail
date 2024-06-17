@@ -11,10 +11,10 @@ import java.util.List;
 
 public class ProjectsPage extends BaseDashboardPage {
     private static final By PROJECTS_LIST = By.cssSelector(".hoverSensitive td a");
-    private static final String DELETE_BUTTON = "projectDeleteButton";
     private static final String EDIT_BUTTON = "projectEditButton";
     private static final String PROJECT_CONTAINER = "//td/a[text() = '%s']";
     private static final String OPEN_OVERVIEW_PROJECT_BUTTON_CONTAINER = ("//a[text() = '%s']/following-sibling:: span/a");
+    private static final String DELETE_PROJECT_CONTAINER = "//td/a[text()='%s']//ancestor::tr[@class = \"odd hoverSensitive\"]//div[@class = \"icon-small-delete\"]";
 
 
     public ProjectsPage(WebDriver driver) {
@@ -28,8 +28,8 @@ public class ProjectsPage extends BaseDashboardPage {
     }
 
     @Step("Click 'Delete project' button")
-    public void clickDeleteProjectLink() {
-        new Button(driver, DELETE_BUTTON).click();
+    public void clickDeleteProjectButton(String projectName) {
+        driver.findElement(By.xpath(String.format(DELETE_PROJECT_CONTAINER, projectName))).click();
     }
 
     @Step("Click 'Edit project' button")

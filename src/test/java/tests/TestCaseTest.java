@@ -1,29 +1,31 @@
 package tests;
 
-import enums.TestCasePriority;
-import enums.TestCaseStatus;
-import enums.TestCaseType;
+import models.Project;
 import models.TestCase;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import utils.TestDataGeneration;
 
 public class TestCaseTest extends BaseTest {
+    @BeforeMethod(onlyForGroups = "ProjectTestShouldBeCreated", alwaysRun = true)
+    public void beforeCreateProject() {
+        Project project = TestDataGeneration.generateProjectWithNameForTests();
+        dashboardPage.isPageOpened();
+        dashboardPage.clickAddProjectLink();
+        addProjectPage.isPageOpened();
+        addProjectPage.createNewProject(project);
+        projectsPage.clickDashboardTab();
+        dashboardPage.isPageOpened();
+    }
 
-    @Test(groups = {"smoke", "userShouldBeLogin"}, description = "Creating new test case")
+    @Test(groups = {"smoke", "userShouldBeLogin", "ProjectTestShouldBeCreated"}, description = "Creating new test case")
     public void createTestCase() {
-        String testCaseName = TestDataGeneration.generateTitleForTestCase();
 
-        TestCase testCase = new TestCase.TestCaseBuilder(testCaseName)
-                .setType(TestCaseType.COMPATIBILITY)
-                .setPriority(TestCasePriority.CRITICAL)
-                .setStatus(TestCaseStatus.DESIGN)
-                .setPreconditions("Preconditions")
-                .setSteps("Steps").setExpectedResult("Expected result")
-                .build();
+        TestCase testCase = TestDataGeneration.generateTestCase();
 
         dashboardPage.isPageOpened();
-        dashboardPage.openProject("Dominican Republic1");
+        dashboardPage.openProject("Test_1");
         overviewProjectPage.isPageOpened();
         overviewProjectPage.clickTestCasesTab();
         testCasesPage.isPageOpened();
@@ -38,5 +40,4 @@ public class TestCaseTest extends BaseTest {
 
 
     }
-
 }

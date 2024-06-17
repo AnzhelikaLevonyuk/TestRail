@@ -18,6 +18,8 @@ public class AddProjectPage extends BasePage {
     private static final String RADIO_BUTTON_SINGLE_REPOSITORY_WITH_BASE_LINE_SUPPORT = "addEditProjectSuiteModeSingleBaseline";
     private static final String RADIO_BUTTON_MULTIPLE_TEST = "addEditProjectSuiteModeMulti";
     private static final String ADD_PROJECT_BUTTON = "addEditProjectAddButton";
+    private static final By PROJECTS_LINK = By.cssSelector("[data-testid = 'administrationSidebarProjects']");
+
 
     private static final By ERROR_MESSAGE = By.cssSelector("link + div");
 
@@ -40,7 +42,7 @@ public class AddProjectPage extends BasePage {
         }
         new RadioButton(driver, project.getProjectType().getId()).select();
 
-        if (project.isShowAnnouncement()) {
+        if (project.isEnableTestCaseApprovals()) {
             new CheckBox(driver, CHECK_BOX_ENABLE_TEST_CASE_APPROVALS).click();
         }
         new Button(driver, ADD_PROJECT_BUTTON).click();
@@ -55,6 +57,11 @@ public class AddProjectPage extends BasePage {
 
     public String getErrorMessage() {
         return driver.findElement(ERROR_MESSAGE).getText();
+    }
+
+    @Step("Click Projects link in Administration")
+    public void clickProjectsLink() {
+        driver.findElement(PROJECTS_LINK).click();
     }
 
 }

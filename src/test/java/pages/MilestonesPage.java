@@ -32,7 +32,7 @@ public class MilestonesPage extends BaseDashboardPage {
     @Step("Check {milestoneName} milestone in the list on Milestones page")
     public boolean isMilestoneCreated(String milestoneName) {
         List<WebElement> milestones = driver.findElements(MILESTONE_LIST);
-        return milestones.stream().anyMatch(project -> project.getText().equals(milestoneName));
+        return milestones.stream().anyMatch(milestone -> milestone.getText().equals(milestoneName));
     }
 
     @Step("Open Milestone info page")

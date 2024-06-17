@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Builder(setterPrefix = "set")
-@EqualsAndHashCode
 @Data
 public class Milestone {
     private String name;

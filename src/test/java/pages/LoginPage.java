@@ -16,9 +16,9 @@ public class LoginPage extends BasePage {
     private static final String EMAIL = "loginIdName";
     private static final String PASSWORD = "loginPasswordFormDialog";
     private static final String LOGIN_BUTTON = "loginButtonPrimary";
-
     private static final By ERROR_MESSAGE = By.cssSelector("[data-testid = loginErrorText]");
     private static final By ERROR_MESSAGE_NEAR_FIELD = By.cssSelector(".loginpage-message");
+    private static final String URI = "https://anzhelikalevonyuk21.testrail.io/index.php?/auth/login/";
 
 
     public LoginPage(WebDriver driver) {
@@ -31,7 +31,7 @@ public class LoginPage extends BasePage {
     }
 
     public void open() {
-        driver.navigate().to("https://anzhelikalevonyuk21.testrail.io/index.php?/auth/login/");
+        driver.navigate().to(URI);
     }
 
     @Step("Fill login form email: '{email}' and password: '{password}'")

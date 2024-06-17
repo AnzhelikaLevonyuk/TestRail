@@ -1,24 +1,30 @@
 package tests;
 
 import models.Milestone;
+import models.Project;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import utils.TestDataGeneration;
 
 public class MilestonesTest extends BaseTest {
 
-    @Test(groups = {"smoke", "userShouldBeLogin"}, description = "Creating new milestone")
-    public void createMilestone() {
-        String milestoneName = TestDataGeneration.generateTitleForMilestone();
+    // Почему при выносе в BaseTest этот метод не работает?
+    @BeforeMethod(onlyForGroups = "ProjectTestShouldBeCreated", alwaysRun = true)
+    public void beforeCreateProject() {
+        Project project = TestDataGeneration.generateProjectWithNameForTests();
+        dashboardPage.isPageOpened();
+        dashboardPage.clickAddProjectLink();
+        addProjectPage.isPageOpened();
+        addProjectPage.createNewProject(project);
+        projectsPage.clickDashboardTab();
+        dashboardPage.isPageOpened();
+    }
 
-        Milestone milestone = Milestone.builder()
-                .setName(milestoneName)
-                .setReferences("References")
-                .setDescription("Description")
-                .setStartDate("6/16/2024")
-                .setEndDate("6/30/2024")
-                .setMilestoneIsCompleted(true)
-                .build();
+    @Test(groups = {"smoke", "userShouldBeLogin", "ProjectTestShouldBeCreated"}, description = "Creating new milestone")
+    public void createMilestone() {
+
+        Milestone milestone = TestDataGeneration.generateMilestone();
 
         dashboardPage.isPageOpened();
         dashboardPage.openProject("Test_1");
@@ -32,14 +38,14 @@ public class MilestonesTest extends BaseTest {
         Assert.assertEquals(milestonesPage.getSuccessMessage(), "Successfully added the new milestone.");
 
         // !разобраться почему не работает?!
-        //Assert.assertTrue(milestonesPage.isMilestoneCreated("Croatia9"));
+        // Assert.assertTrue(milestonesPage.isMilestoneCreated(milestone.getName()));
 
         milestonesPage.openInfoPage(milestone.getName());
         Milestone actualMilestone = milestoneInfoPage.getMilestoneInfo();
         Assert.assertEquals(actualMilestone, milestone);
     }
 
-    @Test(groups = {"regression", "userShouldBeLogin"}, description = "Creating new milestone without name")
+    @Test(groups = {"regression", "userShouldBeLogin", "ProjectTestShouldBeCreated"}, description = "Creating new milestone without name")
     public void createMilestoneWithoutName() {
         Milestone milestone = Milestone.builder()
                 .setName("").setMilestoneIsCompleted(true)
@@ -57,8 +63,24 @@ public class MilestonesTest extends BaseTest {
         Assert.assertEquals(addMilestonePage.getErrorMessage(), "Field Name is a required field.");
     }
 
-    @Test(groups = {"smoke", "userShouldBeLogin"}, description = "Delete milestone {milestoneName}")
-    private void deleteMilestone() {
+    @BeforeMethod(onlyForGroups = "createMilestone", alwaysRun = true)
+    public void beforeCreateMilestone() {
+
+        Milestone milestone = TestDataGeneration.generateMilestoneWithNameForTest();
+
+        dashboardPage.isPageOpened();
+        dashboardPage.openProject("Test_1");
+        projectsPage.clickMilestonesTab();
+        milestonesPage.isPageOpened();
+        milestonesPage.clickAddMilestoneButton();
+        addMilestonePage.isPageOpened();
+        addMilestonePage.createMilestone(milestone);
+        addMilestonePage.clickCreateMilestoneButton();
+        milestonesPage.clickReturnToDashboardTab();
+    }
+
+    @Test(groups = {"smoke", "userShouldBeLogin", "ProjectTestShouldBeCreated", "createMilestone"}, description = "Delete milestone {milestoneName}")
+    public void deleteMilestone() {
         dashboardPage.isPageOpened();
         dashboardPage.openProject("Test_1");
         overviewProjectPage.isPageOpened();
