@@ -45,13 +45,11 @@ public class BaseDashboardPage extends BasePage {
     }
 
     @Step("Click 'Dashboard' tab")
-    public void clickDashboardTab() {
-        driver.findElement(DASHBOARD_TAB).click();
+    public void returnToDashboardTab() {
+        if (isDashboardTabDisplayed()) {
+            driver.findElement(DASHBOARD_TAB).click();
+        } else {
+            driver.findElement(RETURN_TO_DASHBOARD).click();
+        }
     }
-
-    @Step("Click 'Return to Dashboard' tab")
-    public void clickReturnToDashboardTab() {
-        driver.findElement(RETURN_TO_DASHBOARD).click();
-    }
-
 }

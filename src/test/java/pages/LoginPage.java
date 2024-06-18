@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import utils.PropertyReader;
 
 import java.util.List;
 
@@ -18,7 +19,6 @@ public class LoginPage extends BasePage {
     private static final String LOGIN_BUTTON = "loginButtonPrimary";
     private static final By ERROR_MESSAGE = By.cssSelector("[data-testid = loginErrorText]");
     private static final By ERROR_MESSAGE_NEAR_FIELD = By.cssSelector(".loginpage-message");
-    private static final String URI = "https://anzhelikalevonyuk21.testrail.io/index.php?/auth/login/";
 
 
     public LoginPage(WebDriver driver) {
@@ -31,7 +31,7 @@ public class LoginPage extends BasePage {
     }
 
     public void open() {
-        driver.navigate().to(URI);
+        driver.navigate().to(PropertyReader.getProperty("base_url"));
     }
 
     @Step("Fill login form email: '{email}' and password: '{password}'")

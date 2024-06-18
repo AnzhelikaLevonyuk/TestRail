@@ -35,8 +35,14 @@ public class AddProjectPage extends BasePage {
 
     @Step("Creating new project")
     public void createNewProject(Project project) {
-        new Input(driver, PROJECT_NAME).setValue(project.getName());
-        new TextArea(driver, ANNOUNCEMENT).setValue(project.getAnnouncement());
+        if (project.getName() != null) {
+            new Input(driver, PROJECT_NAME).setValue(project.getName());
+        }
+
+        if (project.getAnnouncement() != null) {
+            new TextArea(driver, ANNOUNCEMENT).setValue(project.getAnnouncement());
+        }
+
         if (project.isShowAnnouncement()) {
             new CheckBox(driver, CHECK_BOX_SHOW_THE_ANNOUNCEMENT).click();
         }
@@ -45,13 +51,6 @@ public class AddProjectPage extends BasePage {
         if (project.isEnableTestCaseApprovals()) {
             new CheckBox(driver, CHECK_BOX_ENABLE_TEST_CASE_APPROVALS).click();
         }
-        new Button(driver, ADD_PROJECT_BUTTON).click();
-    }
-
-    @Step("Creating new project without title")
-    public void createNewProjectWithoutTitle(Project project) {
-        new Input(driver, PROJECT_NAME).setValue(project.getName());
-        new TextArea(driver, ANNOUNCEMENT).setValue(project.getAnnouncement());
         new Button(driver, ADD_PROJECT_BUTTON).click();
     }
 

@@ -31,7 +31,9 @@ public class AddTestCasePage extends BaseDashboardPage {
 
     @Step("Create new test-case")
     public void createTestCase(TestCase testCase) {
+
         new Input(driver, TITLE).setValue(testCase.getTitle());
+
         new DropDown(driver, driver.findElement(TYPE)).selectByVisibleText(testCase.getType().getName());
         new DropDown(driver, driver.findElement(PRIORITY)).selectByVisibleText(testCase.getPriority().getName());
         new DropDown(driver, driver.findElement(STATUS)).selectByVisibleText(testCase.getStatus().getName());

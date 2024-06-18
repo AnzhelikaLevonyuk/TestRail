@@ -1,12 +1,17 @@
 package tests;
 
 import modals.ConfirmationModal;
+import models.Milestone;
+import models.Project;
+import models.TestCase;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
 import pages.*;
 import utils.DriverFactory;
 import utils.InvokedListener;
+import utils.PropertyReader;
+import utils.TestDataGeneration;
 
 @Listeners({InvokedListener.class})
 public abstract class BaseTest {
@@ -23,6 +28,9 @@ public abstract class BaseTest {
     protected ConfirmationModal confirmationModal;
     protected OverviewProjectPage overviewProjectPage;
     protected MilestoneInfoPage milestoneInfoPage;
+    protected Project project;
+    protected Milestone milestone;
+    protected TestCase testCase;
 
 
     @BeforeMethod(alwaysRun = true)
@@ -51,7 +59,19 @@ public abstract class BaseTest {
     @BeforeMethod(onlyForGroups = "userShouldBeLogin", alwaysRun = true)
     public void userShouldBeLogIn() {
         loginPage.isPageOpened();
-        loginPage.login("tmsqa26anzhelika@mailinator.com", "TestRail2024!");
+        loginPage.login(PropertyReader.getProperty("email"), PropertyReader.getProperty("password"));
+    }
+
+    @BeforeMethod(dependsOnMethods = {"setUp", "userShouldBeLogIn"}, onlyForGroups = "ProjectShouldBeCreated", alwaysRun = true)
+    public void beforeCreateProject() {
+        project = TestDataGeneration.generateProject();
+
+        dashboardPage.isPageOpened();
+        dashboardPage.clickAddProjectLink();
+        addProjectPage.isPageOpened();
+        addProjectPage.createNewProject(project);
+        projectsPage.returnToDashboardTab();
+        dashboardPage.isPageOpened();
     }
 
     @AfterMethod(alwaysRun = true)

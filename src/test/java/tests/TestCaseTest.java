@@ -1,31 +1,20 @@
 package tests;
 
-import models.Project;
 import models.TestCase;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import utils.TestDataGeneration;
 
 public class TestCaseTest extends BaseTest {
-    @BeforeMethod(onlyForGroups = "ProjectTestShouldBeCreated", alwaysRun = true)
-    public void beforeCreateProject() {
-        Project project = TestDataGeneration.generateProjectWithNameForTests();
-        dashboardPage.isPageOpened();
-        dashboardPage.clickAddProjectLink();
-        addProjectPage.isPageOpened();
-        addProjectPage.createNewProject(project);
-        projectsPage.clickDashboardTab();
-        dashboardPage.isPageOpened();
-    }
 
-    @Test(groups = {"smoke", "userShouldBeLogin", "ProjectTestShouldBeCreated"}, description = "Creating new test case")
+
+    @Test(groups = {"smoke", "userShouldBeLogin", "ProjectShouldBeCreated"}, description = "Creating new test case")
     public void createTestCase() {
 
-        TestCase testCase = TestDataGeneration.generateTestCase();
+        testCase = TestDataGeneration.generateTestCase();
 
         dashboardPage.isPageOpened();
-        dashboardPage.openProject("Test_1");
+        dashboardPage.openProject(project.getName());
         overviewProjectPage.isPageOpened();
         overviewProjectPage.clickTestCasesTab();
         testCasesPage.isPageOpened();

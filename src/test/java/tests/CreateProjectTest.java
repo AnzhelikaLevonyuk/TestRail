@@ -2,33 +2,14 @@ package tests;
 
 import models.Project;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import utils.TestDataGeneration;
 
 public class CreateProjectTest extends BaseTest {
 
-    @BeforeMethod(onlyForGroups = "ProjectTestShouldBeCreated", alwaysRun = true)
-    public void beforeCreateProject() {
-        Project project = TestDataGeneration.generateProjectWithNameForTests();
-        dashboardPage.isPageOpened();
-        dashboardPage.clickAddProjectLink();
-        addProjectPage.isPageOpened();
-        addProjectPage.createNewProject(project);
-        if(projectsPage.isDashboardTabDisplayed())
-        {
-            projectsPage.clickDashboardTab();
-        }
-        else
-        {
-            projectsPage.clickReturnToDashboardTab();
-        }
-        dashboardPage.isPageOpened();
-    }
-
     @Test(groups = {"smoke", "userShouldBeLogin"}, description = "Creating new project with all fields")
     public void createNewProject() {
-        Project project = TestDataGeneration.generateProject();
+        this.project = TestDataGeneration.generateProject();
 
         dashboardPage.isPageOpened();
         dashboardPage.clickAddProjectLink();
@@ -46,28 +27,27 @@ public class CreateProjectTest extends BaseTest {
     @Test(groups = {"regression", "userShouldBeLogin"}, description = "Creating new project without name")
     public void createNewProjectWithoutName() {
 
-        Project project = TestDataGeneration.generateProject();
-
+        this.project = TestDataGeneration.generateProjectWithoutName();
         dashboardPage.isPageOpened();
         dashboardPage.clickAddProjectLink();
         addProjectPage.isPageOpened();
-        addProjectPage.createNewProjectWithoutTitle(project);
+        addProjectPage.createNewProject(project);
         Assert.assertEquals(addProjectPage.getErrorMessage(), "Field Name is a required field.");
     }
 
-    @Test(groups = {"smoke", "userShouldBeLogin", "ProjectTestShouldBeCreated", "createMilestone"}, description = "Delete milestone {milestoneName}")
+    @Test(groups = {"smoke", "userShouldBeLogin", "ProjectShouldBeCreated"}, description = "Delete milestone {milestoneName}")
     public void deleteProject() {
         dashboardPage.isPageOpened();
         dashboardPage.clickAddProjectLink();
         addProjectPage.isPageOpened();
         addProjectPage.clickProjectsLink();
-        projectsPage.clickDeleteProjectButton("Test_1");
+        projectsPage.clickDeleteProjectButton(project.getName());
         confirmationModal.waitConfirmationDialogToDisplayed();
         confirmationModal.checkCheckbox();
         confirmationModal.clickDeleteButton();
 
         Assert.assertEquals(milestonesPage.getSuccessMessage(), "Successfully deleted the project.");
-        Assert.assertFalse(projectsPage.isProjectCreated("Test_1"));
+        Assert.assertFalse(projectsPage.isProjectCreated(project.getName()));
     }
 
 }

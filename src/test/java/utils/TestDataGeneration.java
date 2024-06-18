@@ -21,8 +21,8 @@ public class TestDataGeneration {
                 .build();
     }
 
-    public static Project generateProjectWithNameForTests() {
-        return new Project.ProjectBuilder("Test_1")
+    public static Project generateProjectWithoutName() {
+        return new Project.ProjectBuilder("")
                 .setShowAnnouncement(true)
                 .setAnnouncement(faker.address().cityName())
                 .setProjectType(ProjectType.SINGLE_REPO_FOR_ALL_CASES)
@@ -43,17 +43,6 @@ public class TestDataGeneration {
     public static Milestone generateMilestone() {
         return Milestone.builder()
                 .setName(faker.color().name() + faker.number().randomDigit())
-                .setReferences("References")
-                .setDescription("Description")
-                .setStartDate("6/16/2024")
-                .setEndDate("6/30/2024")
-                .setMilestoneIsCompleted(true)
-                .build();
-    }
-
-    public static Milestone generateMilestoneWithNameForTest() {
-        return Milestone.builder()
-                .setName("Test")
                 .setReferences("References")
                 .setDescription("Description")
                 .setStartDate("6/16/2024")
