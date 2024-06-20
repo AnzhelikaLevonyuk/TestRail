@@ -1,11 +1,14 @@
 package pages;
 
+import decorators.Button;
 import decorators.ElementDecorator;
 import decorators.Input;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import utils.PropertyReader;
 
 import java.util.List;
 
@@ -14,7 +17,6 @@ public class LoginPage extends BasePage {
     private static final String EMAIL = "loginIdName";
     private static final String PASSWORD = "loginPasswordFormDialog";
     private static final String LOGIN_BUTTON = "loginButtonPrimary";
-
     private static final By ERROR_MESSAGE = By.cssSelector("[data-testid = loginErrorText]");
     private static final By ERROR_MESSAGE_NEAR_FIELD = By.cssSelector(".loginpage-message");
 
@@ -23,8 +25,13 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
+    @Override
+    public void isPageOpened() {
+        wait.until(ExpectedConditions.elementToBeClickable(new Button(driver, LOGIN_BUTTON)));
+    }
+
     public void open() {
-        driver.navigate().to("https://likalevonyuk.testrail.io/index.php?/auth/login/");
+        driver.navigate().to(PropertyReader.getProperty("base_url"));
     }
 
     @Step("Fill login form email: '{email}' and password: '{password}'")
