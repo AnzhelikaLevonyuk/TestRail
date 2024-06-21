@@ -44,12 +44,12 @@ public class AddProjectPage extends BasePage {
         }
 
         if (project.isShowAnnouncement()) {
-            new CheckBox(driver, CHECK_BOX_SHOW_THE_ANNOUNCEMENT).click();
+            new CheckBox(driver, CHECK_BOX_SHOW_THE_ANNOUNCEMENT).check();
         }
         new RadioButton(driver, project.getProjectType().getId()).select();
 
         if (project.isEnableTestCaseApprovals()) {
-            new CheckBox(driver, CHECK_BOX_ENABLE_TEST_CASE_APPROVALS).click();
+            new CheckBox(driver, CHECK_BOX_ENABLE_TEST_CASE_APPROVALS).check();
         }
         new Button(driver, ADD_PROJECT_BUTTON).click();
     }

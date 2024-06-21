@@ -1,10 +1,11 @@
 package decorators;
-
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Log4j2
 public class ElementDecorator implements WebElement {
     protected WebDriver driver;
     protected WebElement element;
@@ -48,9 +49,12 @@ public class ElementDecorator implements WebElement {
     @Override
     public void click() {
         try {
+            log.debug("Clicking on element with data-testid = {}",this.dataTestId);
             element.click();
         } catch (ElementNotInteractableException e) {
+            log.debug("Scrolling before click");
             scrollIntoView();
+            log.debug("Clicking on element with data-testid = {}",this.dataTestId);
             element.click();
         }
     }

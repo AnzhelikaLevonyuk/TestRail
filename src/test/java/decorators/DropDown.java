@@ -1,5 +1,6 @@
 package decorators;
 
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.WebDriver;
@@ -7,6 +8,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+@Log4j2
 public class DropDown extends ElementDecorator {
     private final By expandButton = By.cssSelector("[data-testid='historyCompareToButton']");
     private final By searchInput = By.cssSelector("input[type='text']");
@@ -32,9 +34,11 @@ public class DropDown extends ElementDecorator {
         expand();
         WebElement option = this.getOptionByText(value);
         try {
+            log.debug("Select option {}", this.dataTestId);
             option.click();
         } catch (ElementNotInteractableException exception) {
             setSearchValue(value);
+            log.debug("Select option {}", this.dataTestId);
             option.click();
         }
 
