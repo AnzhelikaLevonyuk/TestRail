@@ -3,6 +3,7 @@ package tests;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import utils.PropertyReader;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class LoginTest extends BaseTest {
     @Test(groups = "smoke", description = "Positive login test")
     public void positiveLoginTest() {
         loginPage.isPageOpened();
-        loginPage.login("tmsqa26anzhelika@mailinator.com", "TestRail2024!");
+        loginPage.login(PropertyReader.getProperty("email"), PropertyReader.getProperty("password"));
         Assert.assertTrue(dashboardPage.isUserNameDisplayed());
     }
 

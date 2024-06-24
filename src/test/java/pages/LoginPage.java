@@ -36,6 +36,7 @@ public class LoginPage extends BasePage {
 
     @Step("Fill login form email: '{email}' and password: '{password}'")
     public void login(String email, String password) {
+        logger.info("Log in with email: '{}' and password: '{}'", email ,password);
         new Input(driver, EMAIL).setValue(email);
         new Input(driver, PASSWORD).setValue(password);
         new ElementDecorator(driver, LOGIN_BUTTON).click();
